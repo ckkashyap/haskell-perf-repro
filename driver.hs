@@ -4,8 +4,10 @@ import qualified BugData as BD
 import qualified BugXML2HS as BX2HS
 import qualified Data.List as DL
 import RSXP
+import qualified Report as R
 
 
+import qualified Bug2HTML as BH
 import qualified System.IO as SI
 import qualified Data.ByteString.Lazy.Char8 as B
 
@@ -65,8 +67,9 @@ getBugs = do
 
 main = do
      bugs <- getBugs
-
+     bugs <- BH.dumpHTML bugs
      mapM_ (\b -> putStrLn (show $ BD.bugId b)) bugs
+     R.report bugs
 
      return ()
      
