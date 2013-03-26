@@ -8,7 +8,11 @@ module RSXP (
   , getElementsByPath
 ) where
 
-import Text.ParserCombinators.Parsec
+--import Text.ParserCombinators.Parsec
+import Text.Parsec
+import Text.Parsec.ByteString.Lazy
+import Data.ByteString.Lazy.Char8 (pack)
+
 
 data XMLAST =  
     Element Name [Attribute] [XMLAST]
@@ -29,7 +33,7 @@ parseXML str = parseXML' str
 parseXML' :: String -> XMLAST
 parseXML' str =
   f ast where
-      ast = parse (spaces >> xmlParser) "" str
+      ast = parse (spaces >> xmlParser) "" (pack str)
       f (Right x) = x
       f (Left x) = CouldNotParse
       
