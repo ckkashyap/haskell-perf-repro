@@ -2,18 +2,14 @@ import qualified System.Directory as D
 import qualified System.IO.Unsafe as SIU
 
 outputDir = "data"
-htmlDir = "html"
 rawExt = ".xml"
 
 
 mapMI :: (a -> IO b) -> [a] -> IO [b]
-mapMI _ [] = return [] -- You can play with this case a bit. This will open a file for the head of the list,
--- and then when each subsequent cons cell is inspected. You could probably
--- interleave 'f x' as well.
-mapMI f (x:xs) = do y <- SIU.unsafeInterleaveIO (f x) ; ys <- SIU.unsafeInterleaveIO (mapMI f xs) ; return (y:ys)
+mapMI _ [] 	= return []
+mapMI f (x:xs) 	= do y <- SIU.unsafeInterleaveIO (f x) ; ys <- SIU.unsafeInterleaveIO (mapMI f xs) ; return (y:ys)
 
 processFileContent = length
-
 
 getBugs = do
         files <- D.getDirectoryContents outputDir
